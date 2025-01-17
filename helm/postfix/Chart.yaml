@@ -6,7 +6,4 @@ name: postfix
 keywords:
 - postfix
 sources:
-- https://github.com/eldada/postfix-relay-kubernetes
-maintainers:
-- name: eldada
-  email: eldada@jfrog.com
+- https://github.com/TrashboxeZ/postfix_test.git
