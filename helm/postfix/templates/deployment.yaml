@@ -59,7 +59,6 @@ spec:
             name: logs
         resources:
 {{ toYaml .Values.resources | indent 10 }}
-{{ end }}
       volumes:
         - name: metrics
           emptyDir: {}
