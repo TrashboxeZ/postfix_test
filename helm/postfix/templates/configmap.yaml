@@ -9,7 +9,7 @@ metadata:
     heritage: {{ .Release.Service }}
 data:
   tx-smtp-relay-host: '{{ .Values.smtp.relayHost }}'
+  tx-smtp-fallback-relay-host: '{{ .Values.smtp.fallbackRelayHost }}'
   tx-smtp-relay-myhostname: '{{ .Values.smtp.relayMyhostname }}'
-  tx-smtp-relay-username: '{{ .Values.smtp.relayUsername }}'
   tx-smtp-relay-networks: '{{ .Values.smtp.relayNetworks }}'
   postfix-custom-config: '{{ .Values.postfixCustomConfig }}'
