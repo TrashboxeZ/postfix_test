@@ -13,9 +13,6 @@ echo "POSTFIX_CUSTOM_CONFIG     -  ${POSTFIX_CUSTOM_CONFIG}"
 echo "===================================="
 
 # Write SMTP credentials
-echo "${TX_SMTP_RELAY_HOST} ${TX_SMTP_RELAY_USERNAME}:${TX_SMTP_RELAY_PASSWORD}" > /etc/postfix/sasl_passwd || exit 1
-postmap /etc/postfix/sasl_passwd || exit 1
-rm /etc/postfix/sasl_passwd || exit 1
 
 # Set configurations
 postconf 'smtpd_tls_CAfile = /etc/ssl/certs/ca-certificates.crt' || exit 1
