@@ -34,10 +34,10 @@ Create chart name and version as used by the chart label.
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "postfix.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-{{ default (include "postfix.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-{{ default "default" .Values.serviceAccount.name }}
-{{- end -}}
-{{- end -}}
+# {{- define "postfix.serviceAccountName" -}}
+# {{- if .Values.serviceAccount.create -}}
+# {{ default (include "postfix.fullname" .) .Values.serviceAccount.name }}
+# {{- else -}}
+# {{ default "default" .Values.serviceAccount.name }}
+# {{- end -}}
+# {{- end -}}
