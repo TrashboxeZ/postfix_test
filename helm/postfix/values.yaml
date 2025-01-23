@@ -23,13 +23,6 @@ rbac:
       - watch
       - list
 
-# Service Account
-# Ref: https://kubernetes.io/docs/admin/service-accounts-admin/
-serviceAccount:
-  create: true
-  ## The name of the ServiceAccount to use.
-  ## If not set and create is true, a name is generated using the fullname template
-  name:
 
 # Docker image
 image:
@@ -39,26 +32,9 @@ image:
 
 # Exporter Docker image
 # https://github.com/kumina/postfix_exporter
-exporter:
-  enabled: false
-  image:
-    repository: eldada.jfrog.io/docker/postfix-exporter
-    tag: 0.2
-    pullPolicy: IfNotPresent
-  # Resources needed for the postfix-exporter container
-  resources:
-    requests:
-      cpu: 10m
-      memory: 40Mi
-    limits:
-      cpu: 100m
-      memory: 100Mi
 
 # Add a ServiceMonitor object for scraping metrics by Prometheus
 # Must have exporter.enabled=true
-serviceMonitor:
-  # Enable only if you have support for ServiceMonitor object with version monitoring.coreos.com/v1 (Prometheus)
-  enabled: false
 
 # Expose pods with service on port 25
 service:
@@ -72,9 +48,8 @@ service:
 smtp:
   # Example with mailgun
   relayHost: "[smtp.mailgun.org]:587"
+  fallbackRelayHost: "[smtp.mailgun.org2]:587"
   relayMyhostname: my.host.local
-  relayUsername: relayuser
-  relayPassword: relaypassword
   relayNetworks: '10.0.0.0/8,127.0.0.0/8,172.17.0.0/16,192.0.0.0/8'
 
 # Optional extra configuration to add or edit in /etc/postfix/main.cf

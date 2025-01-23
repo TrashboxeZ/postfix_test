@@ -19,7 +19,6 @@ spec:
         app: {{ template "postfix.name" . }}
         release: {{ .Release.Name }}
     spec:
-      serviceAccountName: {{ template "postfix.serviceAccountName" . }}
       containers:
       - name: {{ template "postfix.name" . }}
         image: '{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}'
@@ -30,6 +29,11 @@ spec:
             configMapKeyRef:
               name: {{ template "postfix.fullname" . }}
               key: tx-smtp-relay-host
+        - name: TX_SMTP_FALLBACK_RELAY_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: {{ template "postfix.fullname" . }}
+              key: tx-smtp-fallback-relay-host
         - name: TX_SMTP_RELAY_MYHOSTNAME
           valueFrom:
             configMapKeyRef:
@@ -39,17 +43,7 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: {{ template "postfix.fullname" . }}
-              key: tx-smtp-relay-networks
-        - name: TX_SMTP_RELAY_USERNAME
-          valueFrom:
-            configMapKeyRef:
-              name: {{ template "postfix.fullname" . }}
-              key: tx-smtp-relay-username
-        - name: TX_SMTP_RELAY_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "postfix.fullname" . }}
-              key: tx-smtp-relay-password
+              key: tx-smtp-relay-network
         - name: POSTFIX_CUSTOM_CONFIG
           valueFrom:
             configMapKeyRef:
@@ -65,23 +59,6 @@ spec:
             name: logs
         resources:
 {{ toYaml .Values.resources | indent 10 }}
-{{- if .Values.exporter.enabled }}
-      - name: {{ template "postfix.name" . }}-exporter
-        image: '{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}'
-        imagePullPolicy: {{ .Values.exporter.image.pullPolicy }}
-        args:
-          - --postfix.logfile_path=/data/log/maillog
-          - --postfix.showq_path=/var/spool/postfix/public/showq
-        ports:
-          - name: exporter
-            containerPort: {{ .Values.service.exporterPort }}
-        volumeMounts:
-          - mountPath: /var/spool/postfix/
-            name: metrics
-          - mountPath: /data/log/
-            name: logs
-        resources:
-{{ toYaml .Values.exporter.resources | indent 10 }}
 {{ end }}
       volumes:
         - name: metrics
