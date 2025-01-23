@@ -40,7 +40,6 @@ image:
 service:
   type: ClusterIP
   port: 25
-  exporterPort: 9154
   loadBalancerIP:
 
 # SMTP server details
